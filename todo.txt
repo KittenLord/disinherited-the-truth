@@ -5,7 +5,7 @@ unfortunately, to make this I actually have to do stuff
 - [ ] Samuel
     - [x] Idle
     - [x] Walking
-    - [ ] Combat
+    - [x] Combat
 - [ ] Slot machine
     - [x] Machine
     - [x] Wheel
@@ -22,11 +22,11 @@ unfortunately, to make this I actually have to do stuff
 
 # Coding
 
-- [ ] Player controller
+- [x] Player controller
 - [ ] Combat system (very basic)
 - [ ] AI ()
-- [ ] Slot machine
-- [ ] UI
+- [x] Slot machine
+- [x] UI
 
 # SFX
 
