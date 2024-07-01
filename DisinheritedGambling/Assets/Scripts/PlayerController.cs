@@ -16,6 +16,7 @@ public class PlayerController : MonoBehaviour
     private bool moveJump = false;
     private bool jumpState = false;
     private bool touchesGround = true;
+    private bool attacking = false;
 
     void Start()
     {
@@ -26,6 +27,16 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        if(attacking) { return; }
+
+        if(Input.GetMouseButtonDown(0) && !attacking)
+        {
+            attacking = true;
+            rb.AddForce(Vector2.up * JumpForce, ForceMode2D.Impulse);
+            animator.Play("Attack");
+        }
+
+
         var axis = Input.GetAxisRaw("Horizontal");
         direction = new Vector2(axis, 0);
         moveJump = axis != 0;
@@ -59,6 +70,7 @@ public class PlayerController : MonoBehaviour
         if(col.transform.tag == "Ground") 
         {
             touchesGround = true;
+            attacking = false;
         }
     }
 }
