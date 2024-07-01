@@ -1,0 +1,36 @@
+unfortunately, to make this I actually have to do stuff
+
+# Drawing
+
+- [ ] Samuel
+    - [x] Idle
+    - [x] Walking
+    - [ ] Combat
+- [ ] Slot machine
+    - [x] Machine
+    - [x] Wheel
+    - [x] Results
+    - [ ] VFX
+- [ ] Background
+- [x] Enemies
+    - [x] Bone
+    - [x] Skull
+    - [x] Moth
+- [ ] UI
+- [ ] A few items
+    - [x] Staff
+
+# Coding
+
+- [ ] Player controller
+- [ ] Combat system (very basic)
+- [ ] AI ()
+- [ ] Slot machine
+- [ ] UI
+
+# SFX
+
+- [ ] Ambient
+- [ ] Outcome soundtrack (bad/good/very good?)
+- [ ] Slot machine
+- [ ] Combat

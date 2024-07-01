@@ -1,0 +1,30 @@
+Occasionally in the dungeons, among monsters and bones, you may encounter a cursed mechanism, a devil's toy
+
+a slot machine
+
+the truth is, Samuel was never the good guy. He was a hardened gambling addict, spending every pennie he's
+gotten on gambling and betting, thus infuriating his father. And after Samuel lost their entire mansion to
+a casino, father drew the line
+
+After being kicked out, Samuel went to the death's domain to achieve immortality, for the sole purpose of
+being able to gamble until the very end of the world. And occasionally placed slot machines taunt him,
+taking his time and life, so that he'll never achieve his utmost dream
+
+Or maybe he will?
+
+***
+
+So the idea is - you may encounter a special slot machine room, and you are able to use it once, and then it
+breaks. The price is - you lose 50% of your max health, which means that you can actually kill yourself using
+it lol. You'll then spin the slot machine with 3 sections, and depending on what you get you get different
+outcomes
+
+Sections are - danger, disease, riches, weapons, bones, magic
+MAYBE TODO: add more
+
+Danger - a couple of mobs drop on you
+Disease - you lose health 
+Riches - you get an item
+Weapons - you get a temporary weapon
+Bones - you get bones
+Magic - grants effects until you die
