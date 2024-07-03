@@ -21,14 +21,28 @@ public class GambaController : MonoBehaviour
     [SerializeField] private SpriteRenderer[] Wheels;
     [SerializeField] private Transform GambaBody;
 
+    [SerializeField] public GameObject GambaBodyTrigger;
+    [SerializeField] public GameObject GambaLeverTrigger;
+
+    [SerializeField] private GameObject GambaLeverOn;
+    [SerializeField] private GameObject GambaLeverOff;
+
+    public void SetLever(bool value)
+    {
+        GambaLeverOn.SetActive(value);
+        GambaLeverOff.SetActive(!value);
+    }
+
     private Dictionary<GambaWheelValue, Sprite[]> WheelValues = new();
     private Sprite[][] WheelFrames = { new Sprite[6], new Sprite[6], new Sprite[6] };
 
-    // Start is called before the first frame update
     void Start()
     {
         if(Main != null) Destroy(Main);
         Main = this;
+
+        GambaLeverTrigger.SetActive(false);
+        GambaBodyTrigger.SetActive(true);
 
         foreach(var type in Enum.GetValues(typeof(GambaWheelValue)).Cast<GambaWheelValue>())
         {
@@ -74,7 +88,8 @@ public class GambaController : MonoBehaviour
 
         while(time <= Mathf.PI*2)
         {
-            GambaBody.localScale = new Vector2(GambaBody.localScale.x, 1 + Mathf.Sin(time*4)*0.1f);
+            // GambaBody.localScale = new Vector2(GambaBody.localScale.x, 1 + Mathf.Sin(time*4)*0.1f);
+            GambaBody.localScale = new Vector2(1 - Mathf.Sin(time*4)*0.1f, 1 + Mathf.Sin(time*4)*0.1f);
             GambaBody.rotation = Quaternion.Euler(0, 0, Mathf.Sin(time*5)*5);
 
             time += Time.deltaTime;
@@ -123,10 +138,15 @@ public class GambaController : MonoBehaviour
         SpinningCoroutine = StartCoroutine(Spinning());
     }
 
-    // Update is called once per frame
+    // I swear I'm not dumb, when I call Spin() from another gameobject it halves the framerate for no reason, I have no idea why
+    private bool StartSpin = false;
+    public void CallSpin() => StartSpin = true;
+
     void Update()
     {
         if(Input.GetKeyDown(KeyCode.U)) SetRandom();
         if(Input.GetKeyDown(KeyCode.O)) Spin();
+
+        if(StartSpin) { StartSpin = false; Spin(); }
     }
 }

@@ -15,11 +15,14 @@ public class PlayerController : MonoBehaviour
 
     private Vector3 direction;
 
+    public float Health = 100;
+    public float MaxHealth = 100;
+
     private bool moveJump = false;
     private bool jumpState = false;
     private bool touchesGround = true;
     private bool attacking = false;
-    private bool hitting = false;
+    public bool hitting = false;
     public bool canInteract = true;
 
     void Start()
@@ -32,9 +35,21 @@ public class PlayerController : MonoBehaviour
         cam = Camera.main;
     }
 
+    void Reset()
+    {
+        direction = Vector2.zero;
+        moveJump = false;
+    }
+
     void Update()
     {
-        if(!canInteract) { direction = Vector2.zero; moveJump = false; return; }
+        UI.Main.SetHealthBar(Health / MaxHealth);
+        // if(Input.GetKeyDown(KeyCode.K)) Health -= 10;
+
+        // TODO: Death animation
+        if(Health <= 0) { Reset(); return; }
+
+        if(!canInteract) { Reset(); return; }
         if(attacking) { return; }
 
         if(Input.GetMouseButtonDown(0) && !attacking)
@@ -74,7 +89,7 @@ public class PlayerController : MonoBehaviour
 
     private IEnumerator Hit()
     {
-        yield return new WaitForSeconds(0.3f);
+        yield return new WaitForSeconds(0.5f);
         hitting = true;
         yield return new WaitForSeconds(0.2f);
         hitting = false;
