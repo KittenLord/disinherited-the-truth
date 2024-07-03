@@ -9,6 +9,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float MovementSpeed;
     [SerializeField] private float JumpForce;
 
+    // If Attacker is always active Unity collision system does a little bit of trolling to me
+    [SerializeField] private GameObject Attacker;
+
     private Rigidbody2D rb;
     private Animator animator;
     private Camera cam;
@@ -29,6 +32,8 @@ public class PlayerController : MonoBehaviour
     {
         if(Main != null) Destroy(Main);
         Main = this;
+
+        Attacker?.SetActive(false);
 
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
@@ -54,6 +59,7 @@ public class PlayerController : MonoBehaviour
 
         if(Input.GetMouseButtonDown(0) && !attacking)
         {
+            Attacker?.SetActive(true);
             attacking = true;
             StartHitting();
             rb.AddForce(Vector2.up * JumpForce, ForceMode2D.Impulse);
@@ -109,6 +115,7 @@ public class PlayerController : MonoBehaviour
         {
             touchesGround = true;
             attacking = false;
+            Attacker?.SetActive(false);
         }
     }
 

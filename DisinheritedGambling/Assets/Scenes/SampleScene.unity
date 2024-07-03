@@ -221,7 +221,7 @@ GameObject:
   - component: {fileID: 240888873}
   - component: {fileID: 240888874}
   - component: {fileID: 240888875}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Attacker
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -544,7 +544,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0, y: -0.8344, z: -0.0010084999}
-  m_LocalScale: {x: 33.1512, y: 16.86323, z: 1}
+  m_LocalScale: {x: 48.08913, y: 16.86323, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 488991098}
@@ -1481,7 +1481,7 @@ GameObject:
   - component: {fileID: 1073803160}
   - component: {fileID: 1073803162}
   - component: {fileID: 1073803163}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1549,7 +1549,7 @@ Transform:
   m_GameObject: {fileID: 1073803157}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.33, y: 0.16, z: 0}
+  m_LocalPosition: {x: -7.57, y: -0.57, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1642,6 +1642,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MovementSpeed: 3
   JumpForce: 3
+  Attacker: {fileID: 240888872}
   Health: 100
   MaxHealth: 100
   hitting: 0
@@ -2200,7 +2201,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0, y: 7.46, z: -0.0010084999}
-  m_LocalScale: {x: 33.1512, y: 6.8380156, z: 1}
+  m_LocalScale: {x: 48.563194, y: 6.8380156, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 488991098}

@@ -76,15 +76,21 @@ public class GambaController : MonoBehaviour
         }
     }
 
+    public bool UseRigged = false;
+    public GambaWheelValue[] RiggedValues = { GambaWheelValue.Bone, GambaWheelValue.Bone, GambaWheelValue.Bone };
+    
+    public GambaWheelValue[] ResultValues = { GambaWheelValue.Bone, GambaWheelValue.Bone, GambaWheelValue.Bone };
+
     private Coroutine SpinningCoroutine;
     private Coroutine[] WheelCoroutines = new Coroutine[3];
 
     private IEnumerator Spinning()
     {
         float time = 0;
-        WheelCoroutines[0] = StartCoroutine(WheelSpinning(0, 3.0f));
-        WheelCoroutines[1] = StartCoroutine(WheelSpinning(1, 4.8f));
-        WheelCoroutines[2] = StartCoroutine(WheelSpinning(2, 7.2f));
+        WheelCoroutines[0] = StartCoroutine(WheelSpinning(0, 3.0f, UseRigged));
+        WheelCoroutines[1] = StartCoroutine(WheelSpinning(1, 4.8f, UseRigged));
+        WheelCoroutines[2] = StartCoroutine(WheelSpinning(2, 7.2f, UseRigged));
+        UseRigged = false;
 
         while(time <= Mathf.PI*2)
         {
@@ -104,7 +110,7 @@ public class GambaController : MonoBehaviour
         UnityEngine.Debug.Log($"done");
     }
 
-    private IEnumerator WheelSpinning(int i, float time)
+    private IEnumerator WheelSpinning(int i, float time, bool useRigged)
     {
         var r = new System.Random();
         var dt = Time.deltaTime * 4;
@@ -116,8 +122,11 @@ public class GambaController : MonoBehaviour
         }
 
         var values = Enum.GetValues(typeof(GambaWheelValue)).Cast<GambaWheelValue>().ToList();
+        var value = values[r.Next(0, values.Count)];
+        if(useRigged) value = RiggedValues[i];
 
-        Wheels[i].sprite = WheelValues[values[r.Next(0, values.Count)]][i];
+        ResultValues[i] = value;
+        Wheels[i].sprite = WheelValues[value][i];
     }
 
     public void Spin()
