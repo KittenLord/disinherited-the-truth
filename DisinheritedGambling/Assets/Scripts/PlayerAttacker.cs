@@ -16,8 +16,12 @@ public class PlayerAttacker : MonoBehaviour
             var entity = other.GetComponent<IEntity>();
             if(entity is null) return;
 
-            PlayerController.Main.hitting = false;
-            entity.OnAttack(15);
+            // wanted to do polymorphically, but fuck it we ball
+            if(PlayerController.Main.Weapon is RegularWeapon rw)
+            {
+                PlayerController.Main.hitting = false;
+                entity.OnAttack(rw.Damage);
+            }
         }
     }
 }

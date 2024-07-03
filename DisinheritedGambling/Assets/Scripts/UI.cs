@@ -29,7 +29,7 @@ public class UI : MonoBehaviour
 
     public void ConfirmGambaMenu()
     {
-        PlayerController.Main.Health -= PlayerController.Main.MaxHealth * 0.5f;
+        PlayerController.Main.Damage(PlayerController.Main.MaxHealth * 0.5f);
         GambaController.Main.GambaBodyTrigger.SetActive(false);
         GambaController.Main.GambaLeverTrigger.SetActive(true);
         CloseGambaMenu();

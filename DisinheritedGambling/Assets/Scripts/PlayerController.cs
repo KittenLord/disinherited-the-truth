@@ -9,14 +9,19 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float MovementSpeed;
     [SerializeField] private float JumpForce;
 
-    // If Attacker is always active Unity collision system does a little bit of trolling to me
-    [SerializeField] private GameObject Attacker;
+    [SerializeField] private Transform WeaponHolder;
+    public IWeapon Weapon;
 
     private Rigidbody2D rb;
     private Animator animator;
     private Camera cam;
 
     private Vector3 direction;
+
+    public void Damage(float h)
+    {
+        Health -= h;
+    }
 
     public float Health = 100;
     public float MaxHealth = 100;
@@ -33,7 +38,7 @@ public class PlayerController : MonoBehaviour
         if(Main != null) Destroy(Main);
         Main = this;
 
-        Attacker?.SetActive(false);
+        Weapon = new RegularWeapon() { Damage = 15 };
 
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
@@ -59,7 +64,6 @@ public class PlayerController : MonoBehaviour
 
         if(Input.GetMouseButtonDown(0) && !attacking)
         {
-            Attacker?.SetActive(true);
             attacking = true;
             StartHitting();
             rb.AddForce(Vector2.up * JumpForce, ForceMode2D.Impulse);
@@ -115,25 +119,7 @@ public class PlayerController : MonoBehaviour
         {
             touchesGround = true;
             attacking = false;
-            Attacker?.SetActive(false);
         }
     }
 
-    void OnTriggerStay2D(Collider2D other)
-    {
-        if(canInteract && other.transform.tag == "GambaBody")
-        {
-            UI.Main.InteractTip(true);
-        }
-        else
-        {
-            UI.Main.InteractTip(false);
-        }
-
-        if(canInteract && other.transform.tag == "GambaBody" && Input.GetKey(KeyCode.E))
-        {
-            canInteract = false;
-            UI.Main.OpenGambaMenu();
-        }
-    }
 }

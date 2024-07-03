@@ -27,6 +27,9 @@ public class GambaController : MonoBehaviour
     [SerializeField] private GameObject GambaLeverOn;
     [SerializeField] private GameObject GambaLeverOff;
 
+    [SerializeField] private Animator CraneAnimator;
+    [SerializeField] private Animator GambaAnimator;
+
     public void SetLever(bool value)
     {
         GambaLeverOn.SetActive(value);
@@ -36,10 +39,24 @@ public class GambaController : MonoBehaviour
     private Dictionary<GambaWheelValue, Sprite[]> WheelValues = new();
     private Sprite[][] WheelFrames = { new Sprite[6], new Sprite[6], new Sprite[6] };
 
+    void StopAnimating()
+    {
+        GambaAnimator.Play("Idle");
+        GambaAnimator.enabled = false;
+    }
+
+    void StartAnimating()
+    {
+        GambaAnimator.enabled = true;
+        GambaAnimator.Play("Idle");
+    }
+
     void Start()
     {
         if(Main != null) Destroy(Main);
         Main = this;
+
+        StopAnimating();
 
         GambaLeverTrigger.SetActive(false);
         GambaBodyTrigger.SetActive(true);
@@ -107,7 +124,39 @@ public class GambaController : MonoBehaviour
 
         yield return WheelCoroutines[2];
 
+        StartCoroutine(AnimateCrane());
+        StartCoroutine(DamageEffect(ResultValues.Where(r => r == GambaWheelValue.Heart).Count()));
+
         UnityEngine.Debug.Log($"done");
+    }
+
+    private IEnumerator AnimateCrane()
+    {
+        StartAnimating();
+        GambaAnimator.Play("Move");
+        CraneAnimator.Play("Move");
+
+        yield return new WaitForSeconds(20);
+
+        CraneAnimator.Play("Idle");
+        GambaAnimator.Play("Idle");
+
+        // ;-; unity doesnt like having object disabled while still animating it
+        yield return null;
+
+        StopAnimating();
+        GambaAnimator.gameObject.SetActive(false);
+    }
+
+    private IEnumerator DamageEffect(int count)
+    {
+        yield return new WaitForSeconds(1);
+        while(count > 0)
+        {
+            count--;
+            PlayerController.Main.Damage(PlayerController.Main.MaxHealth * 0.2f);
+            yield return new WaitForSeconds(0.8f);
+        }
     }
 
     private IEnumerator WheelSpinning(int i, float time, bool useRigged)
