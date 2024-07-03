@@ -5,6 +5,13 @@ using UnityEngine;
 public class DroppedWeapon : MonoBehaviour
 {
     public IWeapon Weapon;
+    public void SetWeapon(IWeapon weapon)
+    {
+        Weapon = weapon;
+        var go = Resources.Load<GameObject>($"Prefabs/{weapon.Name}");
+        var ins = Instantiate(go, this.transform);
+        // ins.transform.position = Vector3.zero;
+    }
 
     void OnTriggerExit2D(Collider2D other)
     {
@@ -18,8 +25,16 @@ public class DroppedWeapon : MonoBehaviour
         UI.Main.InteractTip(PlayerController.Main.canInteract);
         if(PlayerController.Main.canInteract && Input.GetKey(KeyCode.E))
         {
-            PlayerController.Main.Weapon = Weapon;
-            Destroy(this.gameObject);
+            PlayerController.Main.canInteract = false;
+            PlayerController.Main.SetWeapon(Weapon);
+            StartCoroutine(UnlockPlayer());
         }
+    }
+
+    private IEnumerator UnlockPlayer()
+    {
+        yield return new WaitForSeconds(0.1f);
+        PlayerController.Main.canInteract = true;
+        Destroy(this.gameObject);
     }
 }

@@ -30,6 +30,10 @@ public class GambaController : MonoBehaviour
     [SerializeField] private Animator CraneAnimator;
     [SerializeField] private Animator GambaAnimator;
 
+    [SerializeField] private Transform Weapon1Holder;
+    [SerializeField] private Transform Weapon2Holder;
+    [SerializeField] private Transform BoneOrigin;
+
     public void SetLever(bool value)
     {
         GambaLeverOn.SetActive(value);
@@ -126,17 +130,59 @@ public class GambaController : MonoBehaviour
 
         StartCoroutine(AnimateCrane());
         StartCoroutine(DamageEffect(ResultValues.Where(r => r == GambaWheelValue.Heart).Count()));
-
-        UnityEngine.Debug.Log($"done");
     }
 
     private IEnumerator AnimateCrane()
     {
+        yield return new WaitForSeconds(2);
+
         StartAnimating();
         GambaAnimator.Play("Move");
         CraneAnimator.Play("Move");
 
-        yield return new WaitForSeconds(20);
+        yield return new WaitForSeconds(7);
+
+        var goldCount = ResultValues.Where(r => r == GambaWheelValue.Gold).Count();
+        var weaponCount = ResultValues.Where(r => r == GambaWheelValue.Sword).Count();
+
+        IWeapon goldWeapon = RegularWeapon.Default;
+        IWeapon weaponWeapon = RegularWeapon.Default; // naming be like lmao
+
+        if(goldCount == 1) goldWeapon = RegularWeapon.Weapon1;
+        if(goldCount == 2) goldWeapon = RegularWeapon.Weapon2;
+        if(goldCount == 3) goldWeapon = RegularWeapon.Weapon3;
+
+        if(weaponCount == 1) weaponWeapon = RegularWeapon.WeaponW1;
+        if(weaponCount == 2) weaponWeapon = RegularWeapon.WeaponW2;
+        if(weaponCount == 3) weaponWeapon = RegularWeapon.WeaponW3;
+
+        if(goldCount != 0) 
+        {
+            var weapon = Instantiate<DroppedWeapon>(Resources.Load<DroppedWeapon>("Prefabs/DroppedWeapon"), Weapon1Holder);
+            weapon.SetWeapon(goldWeapon);
+        }
+
+        if(weaponCount != 0) 
+        {
+            var weapon = Instantiate<DroppedWeapon>(Resources.Load<DroppedWeapon>("Prefabs/DroppedWeapon"), Weapon2Holder);
+            weapon.SetWeapon(weaponWeapon);
+        }
+
+        var boneCount = ResultValues.Where(r => r == GambaWheelValue.Bone).Count();
+        if(boneCount == 1) boneCount = 5;
+        else if(boneCount == 2) boneCount = 20;
+        else if(boneCount == 3) boneCount = 100;
+
+        var rng = new System.Random();
+        for(int i = 0; i < boneCount; i++)
+        {
+            var type = rng.Next(0, 3);
+            var obj = Resources.Load<Rigidbody2D>($"Prefabs/bone{type+1}");
+            var rb = Instantiate(obj, BoneOrigin.position, Quaternion.Euler(0, 0, rng.Next(0, 360)));
+            rb.AddForce(new Vector2(rng.Next(-10, 10), rng.Next(1, 7)), ForceMode2D.Impulse);
+        }
+
+        yield return new WaitForSeconds(13);
 
         CraneAnimator.Play("Idle");
         GambaAnimator.Play("Idle");
@@ -150,12 +196,12 @@ public class GambaController : MonoBehaviour
 
     private IEnumerator DamageEffect(int count)
     {
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(0.6f);
         while(count > 0)
         {
             count--;
             PlayerController.Main.Damage(PlayerController.Main.MaxHealth * 0.2f);
-            yield return new WaitForSeconds(0.8f);
+            yield return new WaitForSeconds(0.6f);
         }
     }
 
@@ -196,13 +242,13 @@ public class GambaController : MonoBehaviour
         SpinningCoroutine = StartCoroutine(Spinning());
     }
 
-    // I swear I'm not dumb, when I call Spin() from another gameobject it halves the framerate for no reason, I have no idea why
+    // I swear I'm not dumb, when I call Spin() directly from another gameobject it halves the framerate for no reason, I have no idea why
     private bool StartSpin = false;
     public void CallSpin() => StartSpin = true;
 
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.U)) SetRandom();
+        // if(Input.GetKeyDown(KeyCode.U)) SetRandom();
         if(Input.GetKeyDown(KeyCode.O)) Spin();
 
         if(StartSpin) { StartSpin = false; Spin(); }

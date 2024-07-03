@@ -11,6 +11,16 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] private Transform WeaponHolder;
     public IWeapon Weapon;
+    public void SetWeapon(IWeapon weapon)
+    {
+        if(WeaponHolder.childCount != 0) Destroy(WeaponHolder.GetChild(0).gameObject);
+        Weapon = weapon;
+        if(weapon.Name == "") return;
+        var go = Resources.Load<GameObject>($"Prefabs/{weapon.Name}");
+        var ins = Instantiate(go, WeaponHolder);
+        ins.GetComponent<SpriteRenderer>().sortingOrder = 1;
+        // ins.transform.position = Vector3.zero;
+    }
 
     private Rigidbody2D rb;
     private Animator animator;
@@ -38,7 +48,7 @@ public class PlayerController : MonoBehaviour
         if(Main != null) Destroy(Main);
         Main = this;
 
-        Weapon = new RegularWeapon() { Damage = 15 };
+        SetWeapon(RegularWeapon.Default);
 
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
@@ -99,7 +109,7 @@ public class PlayerController : MonoBehaviour
 
     private IEnumerator Hit()
     {
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.55f);
         hitting = true;
         yield return new WaitForSeconds(0.2f);
         hitting = false;
@@ -114,7 +124,6 @@ public class PlayerController : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D col)
     {
-        UnityEngine.Debug.Log($"ground");
         if(col.transform.tag == "Ground") 
         {
             touchesGround = true;
