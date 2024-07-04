@@ -269,11 +269,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Type: 1
   Health: 40
-  Damage: 20
+  Damage: 15
   AttackRadius: 1.8
   LongRange: 0
   Speed: 0.9
-  AttackDelay: 0.6
+  AttackDelay: 2
   rb: {fileID: 0}
   isHitting: 0
 --- !u!61 &5296813150000907306

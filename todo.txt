@@ -2,7 +2,7 @@ unfortunately, to make this I actually have to do stuff
 
 # Drawing
 
-- [ ] Samuel
+- [x] Samuel
     - [x] Idle
     - [x] Walking
     - [x] Combat
@@ -17,16 +17,20 @@ unfortunately, to make this I actually have to do stuff
     - [x] Skull
     - [x] Moth
 - [ ] UI
-- [ ] A few items
+    - [x] Slot machine
+    - [ ] Cheating
+- [x] A few items
     - [x] Staff
 
 # Coding
 
 - [x] Player controller
-- [ ] Combat system (very basic)
-- [ ] AI ()
+- [x] Combat system (very basic)
+- [x] AI
 - [x] Slot machine
 - [x] UI
+- [ ] Shooting
+- [ ] Cheating UI
 
 # SFX
 

@@ -48,7 +48,8 @@ public class PlayerController : MonoBehaviour
         if(Main != null) Destroy(Main);
         Main = this;
 
-        SetWeapon(RegularWeapon.Default);
+        // SetWeapon(RegularWeapon.Default);
+        SetWeapon(FirearmWeapon.WeaponW2);
 
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
@@ -61,8 +62,10 @@ public class PlayerController : MonoBehaviour
         moveJump = false;
     }
 
+    private float ShootingDelay = 0;
     void Update()
     {
+        ShootingDelay -= Time.deltaTime;
         UI.Main.SetHealthBar(Health / MaxHealth);
         // if(Input.GetKeyDown(KeyCode.K)) Health -= 10;
 
@@ -70,14 +73,32 @@ public class PlayerController : MonoBehaviour
         if(Health <= 0) { Reset(); return; }
 
         if(!canInteract) { Reset(); return; }
-        if(attacking) { return; }
+        if(attacking && Weapon.Block) { return; }
 
-        if(Input.GetMouseButtonDown(0) && !attacking)
+        if(Weapon.Block)
         {
-            attacking = true;
-            StartHitting();
-            rb.AddForce(Vector2.up * JumpForce, ForceMode2D.Impulse);
-            animator.Play("Attack");
+            if(Input.GetMouseButtonDown(0) && !attacking)
+            {
+                attacking = true;
+                StartHitting();
+                rb.AddForce(Vector2.up * JumpForce, ForceMode2D.Impulse);
+                animator.Play("Attack");
+            }
+        }
+        else
+        {
+            if(Input.GetMouseButton(0) && ShootingDelay <= 0)
+            {
+                var w = Weapon as FirearmWeapon;
+                ShootingDelay += w.Delay;
+
+                var bulletPrefab = Resources.Load<BulletProjectile>("Prefabs/bullet");
+                var bullet = Instantiate(bulletPrefab, transform.position, Quaternion.identity);
+
+                bullet.Spread = w.Spread;
+                bullet.Damage = w.Damage;
+                bullet.Reverse = transform.localScale.x < 0;
+            }
         }
 
         var axis = Input.GetAxisRaw("Horizontal");

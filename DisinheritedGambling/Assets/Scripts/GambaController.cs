@@ -152,9 +152,9 @@ public class GambaController : MonoBehaviour
         if(goldCount == 2) goldWeapon = RegularWeapon.Weapon2;
         if(goldCount == 3) goldWeapon = RegularWeapon.Weapon3;
 
-        if(weaponCount == 1) weaponWeapon = RegularWeapon.WeaponW1;
-        if(weaponCount == 2) weaponWeapon = RegularWeapon.WeaponW2;
-        if(weaponCount == 3) weaponWeapon = RegularWeapon.WeaponW3;
+        if(weaponCount == 1) weaponWeapon = FirearmWeapon.WeaponW1;
+        if(weaponCount == 2) weaponWeapon = FirearmWeapon.WeaponW2;
+        if(weaponCount == 3) weaponWeapon = FirearmWeapon.WeaponW3;
 
         if(goldCount != 0) 
         {
@@ -186,18 +186,18 @@ public class GambaController : MonoBehaviour
         List<EnemyType> enemies = new();
 
         if(skullCount == 1) { 
-            for(int i = 0; i < 2; i++) enemies.Add(EnemyType.Bone); 
+            for(int i = 0; i < 1; i++) enemies.Add(EnemyType.Bone); 
             for(int i = 0; i < 1; i++) enemies.Add(EnemyType.Skull); 
         }
         else if(skullCount == 2) { 
-            for(int i = 0; i < 4; i++) enemies.Add(EnemyType.Bone); 
-            for(int i = 0; i < 2; i++) enemies.Add(EnemyType.Skull); 
+            for(int i = 0; i < 2; i++) enemies.Add(EnemyType.Bone); 
+            for(int i = 0; i < 1; i++) enemies.Add(EnemyType.Skull); 
             for(int i = 0; i < 1; i++) enemies.Add(EnemyType.Moth); 
         }
         else if(skullCount == 3) { 
             for(int i = 0; i < 5; i++) enemies.Add(EnemyType.Bone); 
-            for(int i = 0; i < 4; i++) enemies.Add(EnemyType.Skull); 
-            for(int i = 0; i < 3; i++) enemies.Add(EnemyType.Moth); 
+            for(int i = 0; i < 5; i++) enemies.Add(EnemyType.Skull); 
+            for(int i = 0; i < 5; i++) enemies.Add(EnemyType.Moth); 
         }
 
         foreach(var enemy in enemies)

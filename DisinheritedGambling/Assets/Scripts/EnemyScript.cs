@@ -41,11 +41,11 @@ public class EnemyScript : MonoBehaviour, IEntity
 
         if(!LongRange)
         {
-            yield return new WaitForSeconds(0.3f);
+            yield return new WaitForSeconds(AttackDelay);
             isHitting = true;
             yield return new WaitForSeconds(0.3f);
             isHitting = false;
-            yield return new WaitForSeconds(AttackDelay);
+            yield return new WaitForSeconds(0.3f);
         }
         else
         {

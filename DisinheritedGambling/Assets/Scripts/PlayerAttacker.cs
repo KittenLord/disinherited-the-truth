@@ -11,6 +11,7 @@ public class PlayerAttacker : MonoBehaviour
 
     void OnTriggerStay2D(Collider2D other)
     {
+        if(other.tag == "Player") return;
         if(PlayerController.Main.hitting)
         {
             var entity = other.GetComponent<IEntity>();
