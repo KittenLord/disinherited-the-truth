@@ -171,7 +171,7 @@ public class GambaController : MonoBehaviour
         var boneCount = ResultValues.Where(r => r == GambaWheelValue.Bone).Count();
         if(boneCount == 1) boneCount = 5;
         else if(boneCount == 2) boneCount = 20;
-        else if(boneCount == 3) boneCount = 100;
+        else if(boneCount == 3) boneCount = 500;
 
         var rng = new System.Random();
         for(int i = 0; i < boneCount; i++)
@@ -179,7 +179,38 @@ public class GambaController : MonoBehaviour
             var type = rng.Next(0, 3);
             var obj = Resources.Load<Rigidbody2D>($"Prefabs/bone{type+1}");
             var rb = Instantiate(obj, BoneOrigin.position, Quaternion.Euler(0, 0, rng.Next(0, 360)));
-            rb.AddForce(new Vector2(rng.Next(-10, 10), rng.Next(1, 7)), ForceMode2D.Impulse);
+            rb.AddForce(new Vector2(UnityEngine.Random.Range(-12.0f, 12.0f), UnityEngine.Random.Range(1.0f, 9.0f)), ForceMode2D.Impulse);
+        }
+
+        var skullCount = ResultValues.Where(r => r == GambaWheelValue.Skull).Count();
+        List<EnemyType> enemies = new();
+
+        if(skullCount == 1) { 
+            for(int i = 0; i < 2; i++) enemies.Add(EnemyType.Bone); 
+            for(int i = 0; i < 1; i++) enemies.Add(EnemyType.Skull); 
+        }
+        else if(skullCount == 2) { 
+            for(int i = 0; i < 4; i++) enemies.Add(EnemyType.Bone); 
+            for(int i = 0; i < 2; i++) enemies.Add(EnemyType.Skull); 
+            for(int i = 0; i < 1; i++) enemies.Add(EnemyType.Moth); 
+        }
+        else if(skullCount == 3) { 
+            for(int i = 0; i < 5; i++) enemies.Add(EnemyType.Bone); 
+            for(int i = 0; i < 4; i++) enemies.Add(EnemyType.Skull); 
+            for(int i = 0; i < 3; i++) enemies.Add(EnemyType.Moth); 
+        }
+
+        foreach(var enemy in enemies)
+        {
+            string name = "BoneEnemy";
+            if(enemy == EnemyType.Skull) name = "SkullEnemy";
+            else if(enemy == EnemyType.Moth) name = "MothEnemy";
+
+            var prefab = Resources.Load("Enemies/" + name);
+            var x = UnityEngine.Random.Range(4.0f, 8.0f);
+            if(rng.Next(0, 2) == 0) x = -x;
+
+            Instantiate(prefab, new Vector3(x, 6.5f, 0), Quaternion.identity);
         }
 
         yield return new WaitForSeconds(13);

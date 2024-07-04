@@ -10,7 +10,7 @@ public interface IWeapon
 // TODO: revisit, looks bad
 public class RegularWeapon : IWeapon
 {
-    public static RegularWeapon Default => new RegularWeapon("", 15);
+    public static RegularWeapon Default => new RegularWeapon("", 10);
     public static RegularWeapon Weapon1 => new RegularWeapon("Reward1", 30);
     public static RegularWeapon Weapon2 => new RegularWeapon("Reward2", 60);
     public static RegularWeapon Weapon3 => new RegularWeapon("Reward3", 99999);
