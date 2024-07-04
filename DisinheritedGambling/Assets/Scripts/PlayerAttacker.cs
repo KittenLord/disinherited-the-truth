@@ -20,6 +20,7 @@ public class PlayerAttacker : MonoBehaviour
             // wanted to do polymorphically, but fuck it we ball
             if(PlayerController.Main.Weapon is RegularWeapon rw)
             {
+                // TODO: Sound effect
                 PlayerController.Main.hitting = false;
                 entity.OnAttack(rw.Damage);
             }

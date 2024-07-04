@@ -27,7 +27,7 @@ public class FirearmWeapon : IWeapon
 {
     public static FirearmWeapon WeaponW1 => new FirearmWeapon("Weapon1", 30, 3f, 0.9f);
     public static FirearmWeapon WeaponW2 => new FirearmWeapon("Weapon2", 20, 5f, 0.1f);
-    public static FirearmWeapon WeaponW3 => new FirearmWeapon("Weapon3", 30, 10f, 0.03f);
+    public static FirearmWeapon WeaponW3 => new FirearmWeapon("Weapon3", 10, 7f, 0.03f);
 
     public bool Block => false;
 

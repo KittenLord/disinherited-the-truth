@@ -30,6 +30,7 @@ public class PlayerController : MonoBehaviour
 
     public void Damage(float h)
     {
+        // TODO: Sound effect
         Health -= h;
     }
 
@@ -49,7 +50,7 @@ public class PlayerController : MonoBehaviour
         Main = this;
 
         // SetWeapon(RegularWeapon.Default);
-        SetWeapon(FirearmWeapon.WeaponW2);
+        SetWeapon(FirearmWeapon.WeaponW3);
 
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
@@ -89,8 +90,9 @@ public class PlayerController : MonoBehaviour
         {
             if(Input.GetMouseButton(0) && ShootingDelay <= 0)
             {
+                // TODO: Sound effect
                 var w = Weapon as FirearmWeapon;
-                ShootingDelay += w.Delay;
+                ShootingDelay = w.Delay;
 
                 var bulletPrefab = Resources.Load<BulletProjectile>("Prefabs/bullet");
                 var bullet = Instantiate(bulletPrefab, transform.position, Quaternion.identity);

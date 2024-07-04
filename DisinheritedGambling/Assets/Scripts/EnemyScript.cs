@@ -29,6 +29,7 @@ public class EnemyScript : MonoBehaviour, IEntity
 
     public void OnAttack(float damage)
     {
+        // TODO: Sound effect
         Health -= damage;
         if(Health <= 0) Destroy(this.gameObject);
     }
@@ -43,6 +44,7 @@ public class EnemyScript : MonoBehaviour, IEntity
         {
             yield return new WaitForSeconds(AttackDelay);
             isHitting = true;
+            // TODO: Sound effect
             yield return new WaitForSeconds(0.3f);
             isHitting = false;
             yield return new WaitForSeconds(0.3f);

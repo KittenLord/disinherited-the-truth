@@ -129,6 +129,13 @@ public class GambaController : MonoBehaviour
         yield return WheelCoroutines[2];
 
         StartCoroutine(AnimateCrane());
+
+        var magicCount = ResultValues.Where(r => r == GambaWheelValue.Magic).Count();
+        if(magicCount > 0)
+        {
+            // TODO: Sound effect
+            PlayerController.Main.Health = PlayerController.Main.MaxHealth;
+        }
         StartCoroutine(DamageEffect(ResultValues.Where(r => r == GambaWheelValue.Heart).Count()));
     }
 

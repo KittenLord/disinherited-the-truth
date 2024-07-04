@@ -25,6 +25,7 @@ public class DroppedWeapon : MonoBehaviour
         UI.Main.InteractTip(PlayerController.Main.canInteract);
         if(PlayerController.Main.canInteract && Input.GetKey(KeyCode.E))
         {
+            // TODO: Sound effect
             PlayerController.Main.canInteract = false;
             PlayerController.Main.SetWeapon(Weapon);
             StartCoroutine(UnlockPlayer());
