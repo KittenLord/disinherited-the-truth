@@ -16,9 +16,9 @@ unfortunately, to make this I actually have to do stuff
     - [x] Bone
     - [x] Skull
     - [x] Moth
-- [ ] UI
+- [x] UI
     - [x] Slot machine
-    - [ ] Cheating
+    - [x] Cheating
 - [x] A few items
     - [x] Staff
 
@@ -29,8 +29,8 @@ unfortunately, to make this I actually have to do stuff
 - [x] AI
 - [x] Slot machine
 - [x] UI
-- [ ] Shooting
-- [ ] Cheating UI
+- [x] Shooting
+- [x] Cheating UI
 
 # SFX
 
