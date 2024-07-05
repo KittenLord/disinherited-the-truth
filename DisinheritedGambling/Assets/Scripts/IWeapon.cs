@@ -25,15 +25,16 @@ public class RegularWeapon : IWeapon
 
 public class FirearmWeapon : IWeapon
 {
-    public static FirearmWeapon WeaponW1 => new FirearmWeapon("Weapon1", 30, 3f, 0.9f);
-    public static FirearmWeapon WeaponW2 => new FirearmWeapon("Weapon2", 20, 5f, 0.1f);
-    public static FirearmWeapon WeaponW3 => new FirearmWeapon("Weapon3", 10, 7f, 0.03f);
+    public static FirearmWeapon WeaponW1 => new FirearmWeapon("Weapon1", 30, 3f, 0.9f, 20);
+    public static FirearmWeapon WeaponW2 => new FirearmWeapon("Weapon2", 20, 5f, 0.1f, 30);
+    public static FirearmWeapon WeaponW3 => new FirearmWeapon("Weapon3", 10, 5f, 0.03f, 50);
 
     public bool Block => false;
 
     public float Damage;
     public float Spread;
     public float Delay;
+    public float Speed;
     public string Name { get; private set; }
-    public FirearmWeapon(string name, float damage, float spread, float delay) { Name = name; Damage = damage; Spread = spread; Delay = delay; } 
+    public FirearmWeapon(string name, float damage, float spread, float delay, float speed) { Name = name; Damage = damage; Spread = spread; Delay = delay; Speed = speed; } 
 }

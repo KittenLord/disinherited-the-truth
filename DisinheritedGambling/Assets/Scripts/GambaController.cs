@@ -60,6 +60,8 @@ public class GambaController : MonoBehaviour
         if(Main != null) Destroy(Main);
         Main = this;
 
+        CanReset = false;
+
         StopAnimating();
 
         GambaLeverTrigger.SetActive(false);
@@ -95,6 +97,16 @@ public class GambaController : MonoBehaviour
             var r = rn.Next(0, values.Count);
             Wheels[i].sprite = WheelValues[values[r]][i];
         }
+    }
+
+    public void Reset()
+    {
+        CanReset = false;
+        GambaAnimator.gameObject.SetActive(true);
+        SetLever(false);
+
+        GambaLeverTrigger.SetActive(false);
+        GambaBodyTrigger.SetActive(true);
     }
 
     public bool UseRigged = false;
@@ -138,6 +150,8 @@ public class GambaController : MonoBehaviour
         }
         StartCoroutine(DamageEffect(ResultValues.Where(r => r == GambaWheelValue.Heart).Count()));
     }
+
+    public bool CanReset = false;
 
     private IEnumerator AnimateCrane()
     {
@@ -227,9 +241,11 @@ public class GambaController : MonoBehaviour
 
         // ;-; unity doesnt like having object disabled while still animating it
         yield return null;
-
         StopAnimating();
+
         GambaAnimator.gameObject.SetActive(false);
+
+        CanReset = true;
     }
 
     private IEnumerator DamageEffect(int count)
@@ -287,7 +303,8 @@ public class GambaController : MonoBehaviour
     void Update()
     {
         // if(Input.GetKeyDown(KeyCode.U)) SetRandom();
-        if(Input.GetKeyDown(KeyCode.O)) Spin();
+        // if(Input.GetKeyDown(KeyCode.O)) Spin();
+        // if(Input.GetKeyDown(KeyCode.M)) Reset();
 
         if(StartSpin) { StartSpin = false; Spin(); }
     }

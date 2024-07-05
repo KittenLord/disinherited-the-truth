@@ -31,11 +31,12 @@ public class PlayerController : MonoBehaviour
     public void Damage(float h)
     {
         // TODO: Sound effect
-        Health -= h;
+        if(!GodMode) Health -= h;
     }
 
     public float Health = 100;
     public float MaxHealth = 100;
+    public bool GodMode = false;
 
     private bool moveJump = false;
     private bool jumpState = false;
@@ -50,7 +51,7 @@ public class PlayerController : MonoBehaviour
         Main = this;
 
         // SetWeapon(RegularWeapon.Default);
-        SetWeapon(FirearmWeapon.WeaponW3);
+        SetWeapon(RegularWeapon.Default);
 
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
@@ -66,6 +67,12 @@ public class PlayerController : MonoBehaviour
     private float ShootingDelay = 0;
     void Update()
     {
+        if(Input.GetKeyDown(KeyCode.Escape))
+        {
+            if(UI.Main.MenuOpened) UI.Main.CloseMenu();
+            else UI.Main.OpenMenu();
+        }
+
         ShootingDelay -= Time.deltaTime;
         UI.Main.SetHealthBar(Health / MaxHealth);
         // if(Input.GetKeyDown(KeyCode.K)) Health -= 10;
@@ -78,7 +85,7 @@ public class PlayerController : MonoBehaviour
 
         if(Weapon.Block)
         {
-            if(Input.GetMouseButtonDown(0) && !attacking)
+            if(Input.GetMouseButtonDown(0) && !attacking && !UI.Main.MenuOpened)
             {
                 attacking = true;
                 StartHitting();
@@ -88,7 +95,7 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            if(Input.GetMouseButton(0) && ShootingDelay <= 0)
+            if(Input.GetMouseButton(0) && ShootingDelay <= 0 && !UI.Main.MenuOpened)
             {
                 // TODO: Sound effect
                 var w = Weapon as FirearmWeapon;
@@ -100,6 +107,7 @@ public class PlayerController : MonoBehaviour
                 bullet.Spread = w.Spread;
                 bullet.Damage = w.Damage;
                 bullet.Reverse = transform.localScale.x < 0;
+                bullet.Speed = w.Speed;
             }
         }
 
@@ -153,5 +161,4 @@ public class PlayerController : MonoBehaviour
             attacking = false;
         }
     }
-
 }

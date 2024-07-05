@@ -8,6 +8,7 @@ public class BulletProjectile : MonoBehaviour
     public float Spread;
     public float Damage;
     public bool Reverse;
+    public float Speed;
 
     private float Sign => Reverse ? -1 : 1;
     private Vector3 Direction;
@@ -29,7 +30,7 @@ public class BulletProjectile : MonoBehaviour
         if(Lifetime > 20) Destroy(this.gameObject);
         Lifetime += Time.deltaTime;
 
-        transform.Translate(Direction * 20 * Time.deltaTime);
+        transform.Translate(Direction * Speed * Time.deltaTime);
     }
 
     void OnTriggerEnter2D(Collider2D other)
