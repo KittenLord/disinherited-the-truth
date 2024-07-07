@@ -295,12 +295,11 @@ public class GambaController : MonoBehaviour
     private IEnumerator WheelSpinning(int i, float time, bool useRigged)
     {
         var r = new System.Random();
-        var dt = Time.deltaTime * 4;
         var frameCounter = 0;
         while(time > 0)
         {
             frameCounter = (frameCounter + 1) % 5;
-            var tdt = dt + UnityEngine.Random.Range(-2*Time.deltaTime, 2*Time.deltaTime);
+            var dt = UnityEngine.Random.Range(0.2f, 1.5f) * Time.fixedDeltaTime;
 
             if(frameCounter == 0) 
             {
@@ -311,9 +310,9 @@ public class GambaController : MonoBehaviour
                 if(i == 2) Audio.Play("click2", volume);
             }
 
-            time -= tdt;
+            time -= dt;
             Wheels[i].sprite = WheelFrames[i][r.Next(0, 6)];
-            yield return new WaitForSeconds(tdt);
+            yield return new WaitForSeconds(dt);
         }
 
         var values = Enum.GetValues(typeof(GambaWheelValue)).Cast<GambaWheelValue>().ToList();
