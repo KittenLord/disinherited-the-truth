@@ -29,8 +29,9 @@ public class EnemyScript : MonoBehaviour, IEntity
 
     public void OnAttack(float damage)
     {
-        // TODO: Sound effect
         Health -= damage;
+        var soundIndex = UnityEngine.Random.Range(0, 3);
+        Audio.Play($"enemyDamage{soundIndex+1}");
         if(Health <= 0) Destroy(this.gameObject);
     }
 

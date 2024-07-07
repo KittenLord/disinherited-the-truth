@@ -24,4 +24,9 @@ public class Audio : MonoBehaviour
         Main = this;
         Source = GetComponent<AudioSource>();
     }
+
+    public static void SetVolume(float volume)
+    {
+        Main.Source.volume = Mathf.Clamp01(volume);
+    }
 }

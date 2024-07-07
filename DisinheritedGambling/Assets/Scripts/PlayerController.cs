@@ -6,8 +6,8 @@ public class PlayerController : MonoBehaviour
 {
     public static PlayerController Main { get; private set; }
 
-    [SerializeField] private float MovementSpeed;
-    [SerializeField] private float JumpForce;
+    [SerializeField] public float MovementSpeed;
+    [SerializeField] public float JumpForce;
 
     [SerializeField] private Transform WeaponHolder;
     public IWeapon Weapon;
@@ -30,7 +30,6 @@ public class PlayerController : MonoBehaviour
 
     public void Damage(float h)
     {
-        // TODO: Sound effect
         if(!GodMode)
         {
             Audio.Play("playerHurt");
@@ -66,6 +65,8 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         cam = Camera.main;
+
+        animator.Play("Idle");
     }
 
     void Reset()
@@ -73,6 +74,8 @@ public class PlayerController : MonoBehaviour
         direction = Vector2.zero;
         moveJump = false;
     }
+
+    private bool DeadAnimation = false;
 
     private float ShootingDelay = 0;
     void Update()
@@ -85,10 +88,9 @@ public class PlayerController : MonoBehaviour
 
         ShootingDelay -= Time.deltaTime;
         UI.Main.SetHealthBar(Health / MaxHealth);
-        // if(Input.GetKeyDown(KeyCode.K)) Health -= 10;
 
-        // TODO: Death animation
-        if(Health <= 0) { Reset(); return; }
+        if(Health <= 0) { DeadAnimation = true; animator.Play("Attack"); transform.rotation = Quaternion.Euler(0, 0, -90); Reset(); return; }
+        if(DeadAnimation) { DeadAnimation = false; animator.Play("Idle"); transform.rotation = Quaternion.identity; }
 
         if(!canInteract) { Reset(); return; }
         if(attacking && Weapon.Block) { return; }
@@ -141,12 +143,11 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate() 
     {
-        rb.velocity = new Vector2(direction.x, rb.velocity.y);
+        rb.velocity = new Vector2(direction.x * MovementSpeed, rb.velocity.y);
         if(touchesGround && moveJump)
         {
             var boingNumber = Random.Range(0, 5);
             Audio.Play($"Jumps/boing{boingNumber + 1}");
-            // Audio.Play($"Jumps/boing4");
 
             rb.AddForce(Vector2.up * JumpForce, ForceMode2D.Impulse);
             if(jumpState = !jumpState)
@@ -182,6 +183,14 @@ public class PlayerController : MonoBehaviour
         {
             touchesGround = true;
             attacking = false;
+        }
+    }
+
+    void OnCollisionStay2D(Collision2D col)
+    {
+        if(col.transform.tag == "Wall")
+        {
+            rb.MovePosition(transform.position - Vector3.up*0.1f);
         }
     }
 }

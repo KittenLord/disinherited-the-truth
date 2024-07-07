@@ -7,6 +7,8 @@ public class UI : MonoBehaviour
 {
     public static UI Main { get; private set; }
 
+    [SerializeField] private Slider VolumeSlider;
+
     [SerializeField] private GameObject GambaMenu;
     [SerializeField] private GameObject Menu;
     [SerializeField] private GameObject CheatingMenu;
@@ -71,6 +73,7 @@ public class UI : MonoBehaviour
 
     public void InteractTip(bool t)
     {
+        if(InteractTip_ == null) return;
         InteractTip_.SetActive(t);
     }
 
@@ -166,4 +169,6 @@ public class UI : MonoBehaviour
 
         Instantiate(prefab, new Vector3(x, 6.5f, 0), Quaternion.identity);
     }
+
+    public void UpdateVolume() { var value = VolumeSlider.value; Audio.SetVolume(value); }
 }

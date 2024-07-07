@@ -121,6 +121,8 @@ public class GambaController : MonoBehaviour
 
     private IEnumerator Spinning()
     {
+        Audio.Play("gambaMusic");
+
         float time = 0;
         WheelCoroutines[0] = StartCoroutine(WheelSpinning(0, 3.0f, UseRigged));
         WheelCoroutines[1] = StartCoroutine(WheelSpinning(1, 4.8f, UseRigged));
@@ -142,14 +144,25 @@ public class GambaController : MonoBehaviour
 
         yield return WheelCoroutines[2];
 
+        yield return new WaitForSeconds(0.6f);
+        var boomIndex = UnityEngine.Random.Range(0, 3);
+        Audio.Play($"boom{boomIndex+1}");
+        yield return new WaitForSeconds(5f);
+
         StartCoroutine(AnimateCrane());
 
         var magicCount = ResultValues.Where(r => r == GambaWheelValue.Magic).Count();
         if(magicCount > 0)
         {
-            // TODO: Sound effect
-            // PlayerController.Main.Health = PlayerController.Main.MaxHealth;
             PlayerController.Main.Heal();
+        }
+        if(magicCount > 1)
+        {
+            PlayerController.Main.JumpForce *= 1.05f;
+        }
+        if(magicCount > 2)
+        {
+            PlayerController.Main.MovementSpeed += 1.3f;
         }
         StartCoroutine(DamageEffect(ResultValues.Where(r => r == GambaWheelValue.Heart).Count()));
     }

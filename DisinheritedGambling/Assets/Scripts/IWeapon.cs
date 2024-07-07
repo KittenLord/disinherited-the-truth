@@ -8,7 +8,6 @@ public interface IWeapon
     public bool Block { get; }
 }
 
-// TODO: revisit, looks bad
 public class RegularWeapon : IWeapon
 {
     public static RegularWeapon Default => new RegularWeapon("", 10);
