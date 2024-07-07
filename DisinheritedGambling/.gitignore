@@ -1,8 +1,5 @@
-*.aup3-shm
-*.aup3-wal
-
-*.aup3-shm
-*.aup3-wal
+../audio.aup3-shm
+../audio.aup3-wal
 
 # This .gitignore file should be placed at the root of your Unity project directory
 #
