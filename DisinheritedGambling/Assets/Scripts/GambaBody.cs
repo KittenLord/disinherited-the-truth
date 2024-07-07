@@ -16,6 +16,7 @@ public class GambaBody : MonoBehaviour
         UI.Main.InteractTip(PlayerController.Main.canInteract);
         if(PlayerController.Main.canInteract && Input.GetKey(KeyCode.E))
         {
+            Audio.Play("click1");
             PlayerController.Main.canInteract = false;
             UI.Main.OpenGambaMenu();
         }

@@ -59,11 +59,13 @@ public class UI : MonoBehaviour
     public void TryReset()
     {
         if(!GambaController.Main.CanReset) return;
+        Audio.Play("click1");
         GambaController.Main.Reset();
     }
 
     public void OpenGambaMenu()
     {
+        Audio.Play("click1");
         GambaMenu.SetActive(true);
     }
 
@@ -74,6 +76,8 @@ public class UI : MonoBehaviour
 
     public void ConfirmGambaMenu()
     {
+        Audio.Play("click1");
+
         PlayerController.Main.Damage(PlayerController.Main.MaxHealth * 0.5f);
         GambaController.Main.GambaBodyTrigger.SetActive(false);
         GambaController.Main.GambaLeverTrigger.SetActive(true);
@@ -105,6 +109,8 @@ public class UI : MonoBehaviour
 
     public void CloseGambaMenu()
     {
+        Audio.Play("click1");
+
         PlayerController.Main.canInteract = true;
         GambaMenu.SetActive(false);
         PlayerController.Main.transform.Translate(Vector3.right * 0.01f);
@@ -118,6 +124,7 @@ public class UI : MonoBehaviour
 
     public void OpenCheatingMenu()
     {
+        Audio.Play("click1");
         Menu.SetActive(false);
         CheatingMenu.SetActive(true);
     }
@@ -132,19 +139,23 @@ public class UI : MonoBehaviour
 
     public void HealPlayer()
     {
-        PlayerController.Main.Health = PlayerController.Main.MaxHealth;
+        Audio.Play("click1");
+        PlayerController.Main.Heal();
+        // PlayerController.Main.Health = PlayerController.Main.MaxHealth;
     }
 
-    public void FlipGodMode() { PlayerController.Main.GodMode = !PlayerController.Main.GodMode; }
-    public void FlipRig() { GambaController.Main.UseRigged = !GambaController.Main.UseRigged; }
+    public void FlipGodMode() { PlayerController.Main.GodMode = !PlayerController.Main.GodMode; Audio.Play("click1"); }
+    public void FlipRig() { GambaController.Main.UseRigged = !GambaController.Main.UseRigged;Audio.Play("click1");}
 
     public void AdvanceRig(int index)
     {
+        Audio.Play("click1");
         WheelIndexes[index] = (WheelIndexes[index] + 1) % 6;
     }
 
     public void SpawnEnemy(int enemyNum)
     {
+        Audio.Play("click1");
         string name = "BoneEnemy";
         if(enemyNum == 1) name = "SkullEnemy";
         else if(enemyNum == 2) name = "MothEnemy";

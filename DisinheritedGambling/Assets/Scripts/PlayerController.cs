@@ -31,7 +31,17 @@ public class PlayerController : MonoBehaviour
     public void Damage(float h)
     {
         // TODO: Sound effect
-        if(!GodMode) Health -= h;
+        if(!GodMode)
+        {
+            Audio.Play("playerHurt");
+            Health -= h;
+        }
+    }
+
+    public void Heal()
+    {
+        Health = MaxHealth;
+        Audio.Play("playerHeal");
     }
 
     public float Health = 100;
@@ -50,8 +60,8 @@ public class PlayerController : MonoBehaviour
         if(Main != null) Destroy(Main);
         Main = this;
 
-        // SetWeapon(RegularWeapon.Default);
         SetWeapon(RegularWeapon.Default);
+        // SetWeapon(FirearmWeapon.WeaponW2);
 
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
@@ -87,9 +97,11 @@ public class PlayerController : MonoBehaviour
         {
             if(Input.GetMouseButtonDown(0) && !attacking && !UI.Main.MenuOpened)
             {
+                var boingNumber = Random.Range(0, 5);
+                Audio.Play($"Jumps/boing{boingNumber + 1}");
                 attacking = true;
-                StartHitting();
                 rb.AddForce(Vector2.up * JumpForce, ForceMode2D.Impulse);
+                StartHitting();
                 animator.Play("Attack");
             }
         }
@@ -97,9 +109,12 @@ public class PlayerController : MonoBehaviour
         {
             if(Input.GetMouseButton(0) && ShootingDelay <= 0 && !UI.Main.MenuOpened)
             {
-                // TODO: Sound effect
+                var volume = UnityEngine.Random.Range(0.7f, 1);
+                var bulletIndex = UnityEngine.Random.Range(0, 3);
+                Audio.Play($"bullet{bulletIndex + 1}", volume);
+
                 var w = Weapon as FirearmWeapon;
-                ShootingDelay = w.Delay;
+                ShootingDelay = w.Delay + UnityEngine.Random.Range(-Time.deltaTime, 2*Time.deltaTime);
 
                 var bulletPrefab = Resources.Load<BulletProjectile>("Prefabs/bullet");
                 var bullet = Instantiate(bulletPrefab, transform.position, Quaternion.identity);
@@ -129,6 +144,10 @@ public class PlayerController : MonoBehaviour
         rb.velocity = new Vector2(direction.x, rb.velocity.y);
         if(touchesGround && moveJump)
         {
+            var boingNumber = Random.Range(0, 5);
+            Audio.Play($"Jumps/boing{boingNumber + 1}");
+            // Audio.Play($"Jumps/boing4");
+
             rb.AddForce(Vector2.up * JumpForce, ForceMode2D.Impulse);
             if(jumpState = !jumpState)
                  animator.Play("Jump1");
@@ -140,7 +159,11 @@ public class PlayerController : MonoBehaviour
 
     private IEnumerator Hit()
     {
-        yield return new WaitForSeconds(0.55f);
+        // yield return new WaitForSeconds(0.55f);
+
+        while(rb.velocity.y >= 0) yield return null; // You start hitting immediately when falling
+        Audio.Play($"playerSwish");
+        yield return new WaitForSeconds(0.1f); // or maybe not immediately lol
         hitting = true;
         yield return new WaitForSeconds(0.2f);
         hitting = false;

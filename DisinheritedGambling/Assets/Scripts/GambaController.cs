@@ -36,6 +36,8 @@ public class GambaController : MonoBehaviour
 
     public void SetLever(bool value)
     {
+        if(value) Audio.Play("lever");
+
         GambaLeverOn.SetActive(value);
         GambaLeverOff.SetActive(!value);
     }
@@ -146,7 +148,8 @@ public class GambaController : MonoBehaviour
         if(magicCount > 0)
         {
             // TODO: Sound effect
-            PlayerController.Main.Health = PlayerController.Main.MaxHealth;
+            // PlayerController.Main.Health = PlayerController.Main.MaxHealth;
+            PlayerController.Main.Heal();
         }
         StartCoroutine(DamageEffect(ResultValues.Where(r => r == GambaWheelValue.Heart).Count()));
     }
@@ -161,7 +164,22 @@ public class GambaController : MonoBehaviour
         GambaAnimator.Play("Move");
         CraneAnimator.Play("Move");
 
-        yield return new WaitForSeconds(7);
+        Audio.Play("crane1");
+
+        yield return new WaitForSeconds(1.5f);
+        Audio.Play("gambaMagnet1");
+
+        yield return new WaitForSeconds(1.5f);
+        Audio.Play("gambaMagnet2");
+
+        yield return new WaitForSeconds(0.5f);
+        Audio.Play("crane2");
+        yield return new WaitForSeconds(1.0f);
+        Audio.Play("gambaMagnet3");
+
+        yield return new WaitForSeconds(2.35f);
+        Audio.Play("magnetEnd");
+        // yield return new WaitForSeconds(7);
 
         var goldCount = ResultValues.Where(r => r == GambaWheelValue.Gold).Count();
         var weaponCount = ResultValues.Where(r => r == GambaWheelValue.Sword).Count();
@@ -234,7 +252,9 @@ public class GambaController : MonoBehaviour
             Instantiate(prefab, new Vector3(x, 6.5f, 0), Quaternion.identity);
         }
 
-        yield return new WaitForSeconds(13);
+        yield return new WaitForSeconds(1);
+        Audio.Play("crane3");
+        yield return new WaitForSeconds(12);
 
         CraneAnimator.Play("Idle");
         GambaAnimator.Play("Idle");
@@ -263,11 +283,24 @@ public class GambaController : MonoBehaviour
     {
         var r = new System.Random();
         var dt = Time.deltaTime * 4;
+        var frameCounter = 0;
         while(time > 0)
         {
-            time -= dt;
+            frameCounter = (frameCounter + 1) % 5;
+            var tdt = dt + UnityEngine.Random.Range(-2*Time.deltaTime, 2*Time.deltaTime);
+
+            if(frameCounter == 0) 
+            {
+                var volume = UnityEngine.Random.Range(0.8f, 1);
+                // Audio.Play("click2", UnityEngine.Random.Range(0.8f, 1));
+                if(i == 0) Audio.Play("click4", volume);
+                if(i == 1) Audio.Play("click3", volume);
+                if(i == 2) Audio.Play("click2", volume);
+            }
+
+            time -= tdt;
             Wheels[i].sprite = WheelFrames[i][r.Next(0, 6)];
-            yield return new WaitForSeconds(dt);
+            yield return new WaitForSeconds(tdt);
         }
 
         var values = Enum.GetValues(typeof(GambaWheelValue)).Cast<GambaWheelValue>().ToList();

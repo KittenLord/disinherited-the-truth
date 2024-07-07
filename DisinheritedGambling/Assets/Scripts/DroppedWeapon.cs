@@ -26,6 +26,7 @@ public class DroppedWeapon : MonoBehaviour
         if(PlayerController.Main.canInteract && Input.GetKey(KeyCode.E))
         {
             // TODO: Sound effect
+            Audio.Play("click1");
             PlayerController.Main.canInteract = false;
             PlayerController.Main.SetWeapon(Weapon);
             StartCoroutine(UnlockPlayer());
