@@ -17,6 +17,9 @@ public class IntroScript : MonoBehaviour
     {
         GetComponent<AudioSource>().Play();
         StartCoroutine(DoStep(0));
+
+        if(!PlayerPrefs.HasKey("Volume")) PlayerPrefs.SetFloat("Volume", 1);
+        GetComponent<AudioSource>().volume = PlayerPrefs.GetFloat("Volume", 1);
     }
 
     private bool TipActivated = false;

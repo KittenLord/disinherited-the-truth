@@ -39,6 +39,10 @@ public class UI : MonoBehaviour
     {
         if(Main != null) Destroy(Main);
         Main = this;
+
+        if(!PlayerPrefs.HasKey("Volume")) PlayerPrefs.SetFloat("Volume", 1);
+        Audio.SetVolume(PlayerPrefs.GetFloat("Volume", 1));
+        VolumeSlider.value = PlayerPrefs.GetFloat("Volume", 1);
     }
 
     void Update()
